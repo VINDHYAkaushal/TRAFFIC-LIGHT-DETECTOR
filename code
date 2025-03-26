@@ -1,0 +1,26 @@
+import cv2
+from ultralytics import YOLO
+from PIL import Image
+
+# Load the pretrained YOLOv8 model
+model_path = '/home/-------/Desktop/best_traffic_med_yolo_v8.pt'  # Update the path to your model
+model = YOLO(model_path)
+
+# Path to the local test image
+image_path= '/home/vkaushal/Desktop/tl3.jpg'
+# Run inference on the local image
+results = model.predict(source=image_path)
+
+# Show the results
+for r in results:
+    im_array = r.plot()  # Plot a BGR numpy array of predictions
+
+    # Convert to RGB PIL image for displaying
+    im = Image.fromarray(im_array[..., ::-1])  # Convert BGR to RGB
+    im.show()  # Display the image
+
+    # Save the image with predictions
+    output_path = '/home/------/Desktop/results.jpg'  # Specify where to save the output image
+    im.save(output_path)
+    print(f"Results saved to {output_path}")
+
